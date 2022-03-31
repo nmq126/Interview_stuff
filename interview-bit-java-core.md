@@ -21,6 +21,9 @@
 - Đảm bảo các đối tượng độc lập với các đối tượng khác bởi nó có thuộc tính, hành vi, chức năng của riêng nó.
 
 ### 6. JIT là gì?
+- Là một phần quan trọng của JRE, phụ trách việc tối ưu hóa hiệu suất của Java ở runtime.
+- Tốc độ của Java phụ thuộc vào tốc độ byte code được convert sang ngôn ngữ máy. Bytecode có thể được thông dịch hoặc biên dịch.
+- Để tăng hiệu suất cho java, jit compiler "communicate" với JVM: thay vì chỉ thông dịch bytecode, JIT phát hiện ra các đoạn code được chạy lặp lại nhiều lần gửi nó đi biên dịch nhằm tối ưu hóa để khi cái đoạn đấy được gọi lại thì JIT k thông dịch mà lôi cái phiên bản đã biên dịch của đoạn code ra chạy thôi.
 
 ### 7. equals() và ==?
 - equals() là method của class Object, == là operator (toán tử).
@@ -54,6 +57,10 @@ do{
 - Dựa vào số lượng tham số cùng với kiểu dữ liệu tương ứng, compiler phân biệt các constructor
 
 ### 10. Override, overload
+- Overload: Các method trong 1 class cùng tên nhưng khác nhau về số lượng và kiểu dữ liệu tham số truyền vào; có thể khác kiểu dữ liệu trả về.
+- Override: Dùng trong 2 class có quan hệ cha con khi lớp con muốn định nghĩa lại 1 method của lớp cha; 2 method này có signature giống nhau
+
+
 ### 11. Giải thích 1 try block nhiều catch block trong java
 - Có thể có nhiều catch nhưng chỉ thằng đầu tiên thỏa mãn điều kiện catch mới được executed
 
@@ -129,13 +136,13 @@ Khi khai báo string kiểu trên JVM sẽ truy cập vào String pool tìm xem 
 
     || HashSet | TreeSet |
     | ------ | ------ | ------ |
-    | performance | chậm hơn 1 tí | nhanh hơn 1 tí |
+    | performance |  nhanh hơn  |chậm hơn |
     | method |  hashCode() and equals() để so sánh object| compareTo() và compare() |
     | kiểu object | hỗ trợ kiểu không đồng nhất hoặc null | k hỗ trợ, runtime exception nếu cố insert |
     | triển khai | lưu trữ không sắp xếp | lưu trữ có sắp xếp (tăng dần default) |
     
 ### 24. Tại sao dùng mảng kí tự để lưu trữ thông tin mật thay vì string?
-- Vì string immutable nên ngay cả khi dùng song string vẫn ở lại trong pool mà k bị GC loại bỏ. Vì thế dùng string để lưu ttin quan trọng tiềm ẩn rủi ro hacker có thể truy cập nó.
+- Vì string immutable nên ngay cả khi dùng xong string vẫn ở lại trong pool mà k bị GC loại bỏ. Vì thế dùng string để lưu ttin quan trọng tiềm ẩn rủi ro hacker có thể truy cập nó.
 - Vì thế sử dụng kiểu dữ liệu mutable như char an toàn hơn mà lại còn tiết kiệm bộ nhớ heap.
 
 
@@ -154,7 +161,12 @@ Khi khai báo string kiểu trên JVM sẽ truy cập vào String pool tìm xem 
 | hỗ trợ insert vào thứ tự nào thì giữ nguyên do có thằng con là LinkedHashMap| không hỗ trợ do sort dữ liệu insert vào theo key hoặc value |
 
 ### 27. Tầm quan trọng của reflection trong java
-
+- Reflection trong mô tả khả năng kiểm tra code bởi 1 thằng khác hoặc chính nó hoặc cái hệ thống của nó và chỉnh sửa code đấy trong runtime.
+- Hạn chế:
+    - Tốc độ: Chậm gấp 3 lần so với gọi trực tiếp method.
+    - Bảo mật: Khi một method được gọi thông qua reference bằng reflection sai nó sẽ dẫn đến lỗi ở runtime chứ k ở complie/load time.
+    - Trace lỗi: Khó tìm ra lỗi khi 1 cái reflective method fail vì cái stack trace quá to. Chúng ta sẽ phải đào sâu vào log của invoke() và proxy() để trace lỗi.
+-Tóm lại là chỉ nên dùng reflection như 1 giải pháp cuối cùng.
 
 ### 28. Các cách dùng thread
 - Extends Thread
@@ -223,11 +235,16 @@ Khi khai báo string kiểu trên JVM sẽ truy cập vào String pool tìm xem 
 ### 35. Object cloning là gì?
 - Tạo ra 1 bản sao y hệt object
 - Cần phải implement Clonable và override method clone()
+>> Nếu bạn tạo một đối tượng khác bằng cách sử dụng từ khóa new và gán các giá trị của đối tượng khác cho đối tượng vừa tạo ra, nó sẽ mất nhiều tiến trình để xử lý trên đối tượng này. Vì vậy để tiết kiệm tác vụ xử lý ta sử dụng phương thức clone().
 
-### 36. 
+### 36. Exception propagate trong code như nào?
+- Khi 1 exception xảy ra, đầu tiên nó sẽ tìm đến catch block phù hợp.
+- Nếu tìm thấy thì sẽ execute block đấy, không thì exception sẽ "propagate" qua cái method call stack tìm đến caller method. Nó propagate đến lúc tìm dc catch block phù hợp thì thôi. Nếu không thấy thì ct terminate ở main method
+[![N|Solid](https://res.cloudinary.com/nmqdec6/image/upload/v1648521600/54236_uvaatp.png)]()
+
 
 ### 37. Có nhất thiết phải có catch block sau try block k
-- **KHÔNG***
+- **KHÔNG**
 - Theo sau 1 try block có thể là catch block hoặc finally block
 
 ### 38. finally có chạy nếu có return trong try và catch block
@@ -238,8 +255,14 @@ Khi khai báo string kiểu trên JVM sẽ truy cập vào String pool tìm xem 
 - Có, dùng this()
 
 ### 40. Trong array thì cấp phát bộ nhớ là liền kề còn ArrayList thì không? Tại sao?
-
+- Array trong java lưu trữ 1 trong 2 thứ: kiểu dữ liệu nguyên thủy hoặc reference đến object
 # _Advanced_
+
+
+### 41. Thừa kế rất phổ biến trong OOP nhưng lại kém tiện lợi hơn hợp tử (composition)
+- Thừa kế tụt hậu so với hợp tử trong 1 số th:
+    - Đa kế thừa: Java k hỗ trợ đa kế thừa, class chỉ extend 1 class cha. Trong th có nhiều chức năng yêu cầu vd: đọc, viết vào file thì composition phù hợp hơn. Writer và reader
+
 
 ### 42. Tạo mới String bằng new khác literal như nào?
 ```sh
@@ -247,10 +270,10 @@ String first = "InterviewBit"
 String second = "InterviewBit";
 ```
 - Khi tạo mới 1 object string bằng cách trên thì JVM sẽ tìm trong String pool xem có String  "InterviewBit" chưa, nếu chư thì tạo mới, nếu có rồi thì không tạo thêm. Như hình thì ở câu lệnh thứ 2 sẽ không có string nào dc khởi tạo mà second sẽ trỏ đến địa chỉ củ  "InterviewBit" hay **first == second**
- ```sh
-String first = new String("InterviewBit");
-String second = new String("InterviewBit");
-```
+     ```sh
+    String first = new String("InterviewBit");
+    String second = new String("InterviewBit");
+    ```
 - Ngược lại, ở dòng đầu tiên, 2 object được tạo ra: 1 trong pool và 1 trong heap; ở dòng 2 sẽ có thêm 1 object được tạo ra trong heap và **first != second** do 2 thằng trỏ vào 2 object khác nhau trong heap
 
 ### 43. Dù đã có Garbage Collectoer (GC) tuy nhiên vẫn có thể xảy ra tràn bộ nhớ?
@@ -372,3 +395,4 @@ void method(int... a, String b) {}    //Compile time error
     ```
     
 ### 56-60. Algorithm
+
