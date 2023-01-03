@@ -12,14 +12,17 @@
 ### 3. Sự khác nhau giữa Heap và Stack
 | Stack | Heap |
 | ------ | ------ |
-| Stack chứa các biến local nguyên thủy và các biến tham chiếu|Heap chứa object được tạo mới bởi từ khóa new, biến instance và biến static |
+| Stack chứa các biến local nguyên thủy và các biến tham chiếu|Heap chứa object được tạo mới bởi từ khóa new(reference đến mấy cái object này thì ở stack), biến instance và biến static |
 | Stack rất nhỏ so với Heap |  |
 | Stack nhanh hơn Heap do tham chiếu đơn giản: Last In First Out | Heap tham chiếu phức tạp hơn |
 | Stack tự động cấp phát và giải phóng bộ nhớ khi 1 method dc gọi dến, 1 block dc tạo trong stack để lưu trữ biến local và tham số, sau khi pthuc trả về thì block bị đẩy ra|Heap không tự giải phóng bộ nhớ, cần có Garbage Collector để làm công việc này |
+|thread safe do mỗi thread có stack riêng?|không thread safe|
+|java.lang.StackOverFlowError|java.lang.OutOfMemoryError|
 ### 4. Garbage collector
 - Garbage là các object k được tham chiếu đến nữa
 - Garbage collector sẽ truy tìm garbage để giải phóng bộ nhớ
 - GC là tự động và có thể tùy chỉnh
+- Có thể request JVM chạy GC bằng **System.gc()** hoặc **Runtime.getRuntime().gc()** 
 ### 5. Tại sao Java không phải 100% lập trình hướng đối tượng (OOP)
  >>Vì Java vẫn sử dụng các kiểu dữ liệu nguyên thủy, mấy cái này k phải object
 ### 6. Sự khác nhau giữa biến instance và biến local
@@ -122,6 +125,8 @@ là một khái niệm mà chúng ta có thể thực hiện một hành động
 >>Bởi vì String có tính chất Immutable, JVM có thể tối ưu hóa bộ nhớ bằng cách lưu trữ một bản sao giá trị của một String duy nhất trong đó và sử dụng lại khi có một String object khác khởi tạo có cùng giá trị với các String đã được lưu trong String pool.
 ### 11. Java String Pool 
 - Là 1 vùng nhớ nằm trong Heap lưu trữ các object string
+- Một dạng cache, tiết kiệm bộ nhớ, tăng tái sử dụng
+![N|Solid](https://media.geeksforgeeks.org/wp-content/uploads/20200602014728/string_pool_3.png)
 
 ```sh
 String value = “abc”
@@ -132,7 +137,9 @@ String value = “abc”
 String value = new String(“abc”);
 ```
 - Khai báo kiểu này thì Java sẽ tạo ô nhớ trong Heap luôn, nếu có ô nhớ có cùng giá trị vẫn tạo ô nhớ mới
-### 12. Sự khác nhau giữa .equals() và ==
+![N|Solid](https://media.geeksforgeeks.org/wp-content/uploads/20200602104736/output_string_4.png)
+
+### 12. Sự khác nhau giữa .equals() và == ( trong String)
 - equals() là method, == là operator (toán tử).
 - equals() so sánh nội dung , == so sánh địa ch.
 ### 27. Có bao nhiêu đối tượng được tạo ra trong đoạn code sau?
