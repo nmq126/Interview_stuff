@@ -147,6 +147,7 @@ String value = new String(“abc”);
 String s = new String("Hê hê");
 ```
 Có 2 đối tượng được tạo ra. Một đối tượng được tạo ra trong string constant pool và một đối tượng được tạo ra trong bộ nhớ heap bởi từ khóa new. **(Not sure)**
+Update: Confirmed by chat gpt và cái hình trên là chỉ có 1 đối tượng được tạo ra trong heap
 
 ## Java Collections Framework
 ### 28. Cấu trúc 
