@@ -275,6 +275,9 @@ String second = "InterviewBit";
     String second = new String("InterviewBit");
     ```
 - Ngược lại, ở dòng đầu tiên, 2 object được tạo ra: 1 trong pool và 1 trong heap; ở dòng 2 sẽ có thêm 1 object được tạo ra trong heap và **first != second** do 2 thằng trỏ vào 2 object khác nhau trong heap
+     ```sh
+    Update: chỉ có 1 object được tạo ra trong heap
+    ```
 
 ### 43. Dù đã có Garbage Collectoer (GC) tuy nhiên vẫn có thể xảy ra tràn bộ nhớ?
 - GC hỗ trợ việc tìm kiếm và loại bỏ các object không cần đến nữa trong chương trình.
